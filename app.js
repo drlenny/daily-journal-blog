@@ -1,5 +1,6 @@
 //jshint esversion:6
 
+require("dotenv").config();
 const express = require("express");
 // const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -17,7 +18,9 @@ app.set('view engine', 'ejs');
 // app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/blogDB", {useNewUrlParser: true});
+const password = process.env.password
+
+mongoose.connect(`mongodb+srv://daniel:${password}@cluster0.zlpi7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {useNewUrlParser: true});
 
 const postSchema = new mongoose.Schema({
   title: String,
@@ -82,5 +85,5 @@ app.get("/posts/:postId", function(req, res){
 let port = process.env.PORT || 3002
 
 app.listen(port, function() {
-  console.log("Server started on port 3002");
+  console.log(`Server started on port ${port}`);
 });
